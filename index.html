@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    </head> 
+    <script>
+        async function typeSentence(txt, delay, id) {
+        for (var i = 0; i < txt.length; i++) {
+            await waitForMs(delay);
+            document.getElementById(id).innerHTML += txt[i];
+        }
+        return;
+    }
+    function waitForMs(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+    typeSentence('Maria Chrysafis', 100, "demo")
+    </script>
+    <body>
+        <div class = "box">
+        <div class="navbar">
+            <a href="projects/projects.html">Resume</a>
+        </div>
+        <h1 id="demo"></h1>
+        <h2 id="heading">Stanford Online High School Class of 2024</h2>
+        </div>
+        <div class="bar"></div>
+        <div class="about-me"> 
+            <h1> About Me </h1>
+            <h3>
+                Competitive Programming
+            </h3>
+            <p>
+                In my free time, you can find me doing competitive programming. I go by <a href="https://codeforces.com/profile/Olympia">Olympia</a> on Codeforces, <a href="https://www.codechef.com/users/airamc">airamc</a> on Codechef, and <a href="https://leetcode.com/passionFruitFlower/">PassionFruitFlower</a> on LeetCode. 
+                On slate with competitive programming, I also enjoy learning new algorithms. Feel free to check out my short article on <a href="https://codeforces.com/blog/entry/101010">Tree Isomorphism</a> or my slightly denser article on <a href="https://discuss.codechef.com/t/matroids-extending-kruskals-algorithm/91469">Matroid Theory</a>! 
+            </p>
+            <p>
+                In high school, I reached the highest level of the USA Computing Olympiad (USACO), the platinum division. I was nominated as a USACO finalist in 2023.
+            </p>
+            <p>
+                I am currently working on writing up some coding problem solutions.
+            </p>
+            <h3>
+                Work
+            </h3>
+            <p>
+            I've been working as a Problem Reviewer for LeetCode since November of 2022.
+            </p>
+            <p> <a href="/Competitive-Programming/index.html">This is a test.</a></p>
+        </div>
+        <div class="footer">
+            This website was made by me from scratch using HTML, JavaScript, and CSS. 
+        </div div class="footer">
+    </body>
+</html>

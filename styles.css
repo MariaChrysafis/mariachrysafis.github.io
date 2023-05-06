@@ -1,0 +1,93 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  /* Create two equal columns that floats next to each other */
+html {
+    height: 100%;
+}
+body {
+    background-color: white;
+    font-family: 'Corpo Serif Medium';
+    cursor: pointer;
+    background-size: cover;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.navbar {
+    overflow: hidden;
+    text-align: center;
+    text-align: right;
+    padding-top: 5px;
+}
+
+.box {
+    background: rgb(247, 247, 247);
+    padding: 10px;
+}
+
+.navbar {
+    /* background-image: linear-gradient(rgb(255, 255, 255), lightyellow); */
+}
+
+.navbar a {
+    color: white;
+    padding: 1%;
+    text-decoration: none;
+    color:blue;
+    text-align: right;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.bar {
+    background-color: rgb(236, 236, 236);
+    padding: 1px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+}
+
+h2 {
+    text-align: center;
+    font-style: italic;
+}
+.about-me {
+    padding-left: 30%;
+    padding-right: 30%;
+}
+
+.about-me p {
+    font-size: 20px;
+}
+
+.about-me h1 {
+    font-size: 30px;
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+    color: black;
+    text-align: center;
+    padding: 3px;
+    border-style: solid;
+    border-color:rgb(236, 236, 236)
+  }

@@ -1,0 +1,22 @@
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+<!DOCTYPE html>
+<html>
+<h1>
+    Contest 3
+</h1>
+<h2>
+    Zoltan
+</h2>
+<h3>
+    Subtask 1
+</h3>
+<p>We can enumerate all possible list of numbers that Cero can construct, since there are $2^N$ of them. For each list of numbers, we'd like to find both the <a href="https://leetcode.com/problems/longest-increasing-subsequence/">length of the longest increasing subsequence</a> and also the <a href="https://leetcode.com/problems/number-of-longest-increasing-subsequence/description/">number of longest increasing subsequences</a>. 
+Both these problems are well-known and can be solved in $\mathcal{O}(N^2)$.</p>
+
+In my code, I actually find both the length of the longest increasing subsequence and the longest increasing subsequence itself in $O(N \log N)$ time using a segment tree. 
+</html>
