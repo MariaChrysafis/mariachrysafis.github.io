@@ -15,8 +15,9 @@
 <h3>
     Subtask 1
 </h3>
-<p>We can enumerate all possible list of numbers that Cero can construct, since there are $2^N$ of them. For each list of numbers, we'd like to find both the <a href="https://leetcode.com/problems/longest-increasing-subsequence/">length of the longest increasing subsequence</a> and also the <a href="https://leetcode.com/problems/number-of-longest-increasing-subsequence/description/">number of longest increasing subsequences</a>. 
-Both these problems are well-known and can be solved in $\mathcal{O}(N^2)$.</p>
+<p>We can enumerate all possible list of numbers that Cero can construct, since there are $2^N$ of them. For each list of numbers, we'd like to find both the <a href="https://leetcode.com/problems/longest-increasing-subsequence/">length of the longest increasing subsequence</a> (LIS) and also the <a href="https://leetcode.com/problems/number-of-longest-increasing-subsequence/description/">number of longest increasing subsequences</a>. 
+Both counting and finding the LIS are well-known and can be solved in $\mathcal{O}(N \log N)$, but for this problem we can get away with a naive $O(N^2)$ LIS solution, since $O(N^2 2^N)$ is still fast enough. </p>
+<pre>
 
-In my code, I actually find both the length of the longest increasing subsequence and the longest increasing subsequence itself in $O(N \log N)$ time using a segment tree. 
+</pre>
 </html>
