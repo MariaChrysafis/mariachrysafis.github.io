@@ -11,8 +11,10 @@
 <h1>
   Contest 3
 </h1>
+<h2>Imena (<a href="https://oj.uz/submission/737252">Code</a>)</h2>
+<p>Just follow the instructions of the problem :). The only potentially tricky part is reading in the input; to do that, just keep reading in strings until you reach more than $N$ sentences.</p>
 <h2>
-  Zoltan
+  Zoltan (<a href="https://oj.uz/submission/737225">Code</a>)
 </h2>
 <h3>
   Subtask 1
@@ -38,7 +40,4 @@ Subtask 3
 <li> Find the LDS of the subsequence of our original array containing all elements $\le x$.</li>
 </ul>
 <p> Since these two are analogous, I'll only talk about finding the LIS of all elements in our original array $> x$. To do this, iterate over $x$ in decreasing order. Maintain a segment tree, where each leaf of the segment tree stores two things (1) the longest increasing subsequence ending at that point and (2) the number of longest increasing subsequences ending at that point. To update the segment tree to account for new $x$, notice that whenever we add a new viable element, the length of the LIS is the maximum LIS ending at a point to its right plus $1$. The number of the LISes at that point is the sum of the number of LISes at each optimal point. So, in short, this reduces a segment tree with operations find_min and count_min. </p>
-<h3>
-  <a href="https://oj.uz/submission/737225">Code</a>
-</h3>
 </html>
