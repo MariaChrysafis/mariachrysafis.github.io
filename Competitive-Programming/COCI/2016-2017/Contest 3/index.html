@@ -1,33 +1,44 @@
 <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-  </script>
-  <script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-  </script>
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+
 <!DOCTYPE html>
 <html>
 <h1>
-    Contest 3
+  Contest 3
 </h1>
 <h2>
-    Zoltan
+  Zoltan
 </h2>
 <h3>
-    Subtask 1
+  Subtask 1
 </h3>
 <p>We can enumerate all possible list of numbers that Cero can construct, since there are $2^N$ of them. For each list of numbers, we'd like to find both the <a href="https://leetcode.com/problems/longest-increasing-subsequence/">length of the longest increasing subsequence</a> (LIS) and also the <a href="https://leetcode.com/problems/number-of-longest-increasing-subsequence/description/">number of longest increasing subsequences</a>. 
 Both counting and finding the LIS are well-known and can be solved in $\mathcal{O}(N \log N)$, but for this problem we can get away with a naive $O(N^2)$ LIS solution, since $O(N^2 2^N)$ is still fast enough. </p>
 <pre>
 </pre>
 <h3>
-  Subtask 2
+Subtask 2
 </h3>
 <p>Let's mark each element in the original array as either 'L' or 'R'. An 'L' denotes that that element will be placed to the left of Cero's board, whereas an 'R' denotes that that element will be placed to the right of Cero's board.</p>
 <p>Intuitively, it makes sense that we want all the small numbers to be an 'L' and all the large numbers to be an 'R', since putting a large number at the start of the blackboard wouldn't contribute to our LIS. </p>
 <p>The key observation is that our LIS on Cero's blackboard will be some longest decreasing subsequence amongst the 'L's joined together with a LIS amongst the 'R's. In order for our net LIS to be valid, we need to make sure that the largest element in our longest decreasing subsequence (LDS) of 'L's is still smaller than the smallest element in longest increasing subsequence amongst the 'R's.</p>
 <p>So let's suppose we fix the largest element in the longest decreasing subsequence of 'L's to be $x$. Then, our LIS of the 'R's will have only elements $> x$. So in order to find the best possible LIS with $x$ fixed, we can find the LDS of the subsequence of elements $\le x$ and the LIS of the subsequence of elements $> x$ and join them. To enumerate not only the optimal LIS but the number of LISes, we find the number of LISes amongst the numbers $>x$ and multiply it with the number of LDSes amongst the numbers $\le x$. </p>
+<p>The elements that don't contribute to our LIS can be placed in any order.</p>
 <h3>
-  Subtask 3
+Subtask 3
 </h3>
-
+<p>By the same logic as subtask 2, we'd like to be able to do two things:</p>
+<ul>
+<li> Find the LIS of the subsequence of our original array containing all elements $> x$.  </li>
+<li> Find the LDS of the subsequence of our original array containing all elements $\le x$.</li>
+</ul>
+<p> Since these two are analogous, I'll only talk about finding the LIS of all elements in our original array $> x$. To do this, iterate over $x$ in decreasing order. Maintain a segment tree, where each leaf of the segment tree stores two things (1) the longest increasing subsequence ending at that point and (2) the number of longest increasing subsequences ending at that point. To update the segment tree to account for new $x$, notice that whenever we add a new viable element, the length of the LIS is the maximum LIS ending at a point to its right plus $1$. The number of the LISes at that point is the sum of the number of LISes at each optimal point. So, in short, this reduces a segment tree with operations find_min and count_min. </p>
+<h3>
+  <a href="https://oj.uz/submission/737225">Code</a>
+</h3>
 </html>
