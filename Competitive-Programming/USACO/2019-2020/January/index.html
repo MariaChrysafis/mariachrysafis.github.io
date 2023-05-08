@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+<html>
+    <body>
+        <h1> USACO January </h1>
+        <h2>
+            Non-Decreasing Subsequences (Platinum)
+        </h2>
+        <p>
+            This problem can be solved using divide and conquer. The idea is to have a recursive function with parameters $queries$, $l$, and $r$, where we answer all queries that are contained within the range $[l, r]$. Initially, we call the recursive function on $queries$, $l = 0$, and $r = N - 1$.
+        </p>
+        <p>
+            Now, let's choose a middle point $m$ at $\left\lceil \frac{l + r + 1}{2} \right\rceil$. If we can solve for all queries containing the point $m$, then we can recursively solve for all queries not containing $m$, since they must lie in the interval $[l, m - 1]$ or $[m + 1, r]$.
+        </p>
+        <p>
+            But it is not immediately obvious how to answer all queries containing a point $m$. One idea is to create two auxilary arrays $left$ and $right$. We'll make $left[i]$ will store some valuable information about the number of non-decreasing subsequences from $m - i$ to $m$, and we can make $right[i]$ store some valuable information about the number of non-decreasing subsequences from $m$ to $m + i + 1$. If we can create these two arrays and figure out how to merge them to answer queries, then we're done.
+        </p>
+        <p>
+            Let' make each element in $right$ and $left$ be a $K \times K$ array. The $(i, j)$th element of the 2D array will store the number of ways to have a non-decreasing subsequence starting at value $i$ and ending at value $j$. To merge $left[x]$ and $right[y]$ to answer a query, we just need to merge the $K \times K$ arrays. To do this, iterate over all $1 \le i \le j \le k \le l \le K$ and notice that we can take a non-decreasing subsequences from $i$ to $j$ and merge it with another nondecreasing subsequence from $k$ to $l$. This is actually $O(K^4)$, which is too slow, but we can speed it up to $O(K^2)$ with the use of prefix sums.
+        </p>
+        <p>
+            Now that we've dealt with merging, how are we to create the arrays themselves and quickly update our $K \times K$ array appropriately. To do this, I'll only talk about quickly building $left$, since $right$ is effectively analogous.  
+        </p>
+        <p>
+            Notice that there are very few changes between $left[i]$ and $left[i + 1]$. So $left[i]$ is basically equal to $left[i + 1]$, except that we have to account for prepending the element $arr[i + 1]$ to our list. So the only elements in our $K \times K$ array that will change are those at indices $(arr[i + 1], j)$ for some $j$. We can account for these changes in $O(K^2)$ time.
+        </p>
+        <p>
+            The final complexity is $O(Q(K^2 + \log N) + NK^2 \log N)$, I believe. Since $K$ is small, this will suffice.
+        </p>
+        <p>
+            The divide and conquer argument is explained <a href="https://usaco.guide/plat/DC-SRQ?lang=cpp">here</a>. Personally, I had never really seen a divide and conquer problem of this nature, so it was a fun problem to solve, I thought.
+        </p>
+    </body>
+</html>
