@@ -1,0 +1,36 @@
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  
+  <!DOCTYPE html>
+  <html>
+  <h1>
+    Contest 3
+  </h1>
+  <h2>Logičari (<a href="https://oj.uz/problem/view/COCI21_logicari">Code</a>)</h2>
+  <p>
+    Since the graph has $n$ edges, $n$ nodes, and is entirely connected, we know that the graph must be a tree plus with one extra edge added. Find any edge that would not disconnect the graph once removed. (We can find this edge using bridge detection methods.) Suppose that the endpoints of this edge are $u$ and $v$.
+  </p>
+  <p>
+    It is not hard to see that there are four cases for the eye color of $u$ and $v$: either $u$ and $v$ are both blue, one of them is blue, or both of them is blue. Let's suppose that $u$ is of color $col_u$ and $v$ is of color $col_v$, where $col = 1$ denotes a blue-eyed person.
+  </p>
+  <p>
+    Let's remove the edge $u \longleftrightarrow v$. The graph will still be connected, and it will now be a tree, which is quite convenient. Every node in this tree will be adjacent to at least one blue-eyed person, but nodes adjacent to $u$ and $v$ may not be. In particular, a node adjacent to $u$ will have $1 - col_u$ neighbors in the tree that are blue, now that $u \longleftrightarrow v$ is removed.
+  </p>
+  <p>
+    The question remains now how to find out the maximum possible number of blue-eyed people in a tree if each node is designated as having either $0$ or $1$ blue-eyed neighbors. (Again, nodes adjacent to $u, v$ may have no other blue eyed neighbors in the tree, even if they have one blue-eyed neighbor in the original graph.)
+  </p>
+  <p>
+    This can be solved using dynamic programming. In particular, let $dp[curNode][cp][cm][cc]$ denote the maximum number of blue-eyed neighbors in the subtree of $curNode$ if:
+    <ul>
+        <li> $cp = 1$ if the parent $curNode$ is blue-eyed and $0$ otherwise.</li>
+        <li> $cm =1$ is $curNode$ is blue-eyed and $0$ otherwise. </li>
+        <li> $cc = 1$ if $curNode$ has $1$ blue neighbor in the tree and $0$ otherwise. </li>
+    </ul>
+    The dynamic programming transitions immediately follow as self-explanatory (See my code for implementation details).
+  </p>
+  </html>
