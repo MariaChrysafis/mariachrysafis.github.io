@@ -1,0 +1,35 @@
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  
+  <!DOCTYPE html>
+  <html>
+  <h1>
+    Contest 5
+  </h1>
+  <h2>Radio (<a href="https://oj.uz/submission/747125">Code</a>)</h2>
+  <p>
+    The simplicity of this problem was really nice.
+  </p>
+  <p>
+    The first thing I noticed was that each number can be reduced to a set of no more than $7$ primes. In order to see if there are two numbers that are not relatively prime, we need to check if any pair of numbers have a common prime factor (or alternatively, if their prime number set intersects). In this way, it felt pretty similar to the classical problem "point update; check if all numbers in range are distinct," except this time each element is a small set, not a single number.
+    The way you typically solve that classical problem is with an auxilary array/segment tree $next$, where $next[i]$ is the next occurence of $arr[i]$. So I figured why not try something similar for this problem.
+  </p>
+
+  <p>
+    So let's mantain an array/segment tree $next$, where $next[i]$ represents the first number after $i$ that is not relatively prime to $i$. If there is no next number, then let $next[i] = 10^9$ or some other large integer. This makes answering range queries simple. To check if there is any relatively prime pair in the interval $[l, r]$, find the range minimum of $next[l \cdots r]$ and check if it is less than or equal to $r$ or not. Now, the question remains how to maintain this array $next$.
+  </p>
+  <p>
+    To help with maintain $next$, let's also maintain an array of sets $oc$, where $oc[i]$ is empty is $i$ is composite. If $i$ is prime, then $oc[i]$ represents the set of broadcasting stations that are a multiple of $i$.
+  </p>
+  <p>
+    Now, if we want to find the $next$ value of $x$, then we can simply find the next value after $x$ for all $oc[p]$ and take the minima.
+  </p>
+  <p>
+    Each time we change whether a station is broadcasting, our array $next$ will update. In particular, let's suppose that we change whether station $x$ is broadcasting (say, we make it broadcast when it wasn't before). Then, for each prime $p | x$, $oc[p]$ will need to be updated to include $x$. In addition, numbers right before the occurence of $x$ in $oc[p]$ will need have to have their $next$ value updated.
+  </p>
+  </html>
