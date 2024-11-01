@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Cryptography
+title: Zero Knowledge
 ---
 
-# Zero Knowledge Proofs I
+# Intro to Zero Knowledge Proofs
 Suppose I want to convince you that I have a certain type of information, but I don't want to reveal to you the information itself. This is the essence of a zero knowledge proof: the prover is able to convince the verifier of some fact, without leaking any knowledge. We give three examples of zero knowledge proof protocols.
 ## Red-Blue Balls
 To give a concrete example, suppose that there are two balls, one red and one blue, and that the prover wants to prove to the verifier that he can tell the difference between those two balls. The verifier is colorblind and cannot distinguish between the two balls. One way for the prover to show the verifier that he can tell the difference between the two balls is as follows:
@@ -40,10 +40,10 @@ for some integer $a$ and prime $p$. One protocol is as follows:
     a^{r + x \cdot b} \equiv a^{r} \cdot a^{x}  \equiv y \cdot a^{r} \pmod{p}.\end{align}
 
 Crucially, if Alice does not know such a value of $x$, she cannot cheat. Her best strategy would be to always send $r$, since she will pass if $b = 0$. However, she fails half the time, when $b = 1$, so eventually, she will get caught.
-# Zero Knowledge Proofs II
-Ultimately, we'd like to apply ZK principles to arithmetic circuits, but this is quite a challenging task. So, let's start with a simpler task: let's try to verify the solution to some arithmetic circuit, quickly.
-## Arithmetic Circuits
-Consider the system of equations
+# Zero Knowledge Proofs of Arithmetic Circuits
+Ultimately, we'd like to apply ZK principles to arithmetic circuits, but this is quite a challenging task. Let's break it up.
+## Arithmetic Circuits $\to$ R1CS
+Here, we explain how to go from an arithmetic circuit to a rank-1 constraint system (R1CS). A R1CS is nothing more than a constraint system of the form $(s \cdot a) \times (s \cdot b) = s \cdot c$, where $a$, $b$, and $c$ are constant vectors and $s$ is our solution vector. To see how this works in practice, suppose we have some arithmetic circuit as follows:
 \begin{align}
     x \times x \times x + y \times y = 57 \newline
     x \times y = 14
@@ -56,7 +56,7 @@ for $x, y \in \mathbb{Z}$. This is quite a challenging problem, significantly mo
     x \times y &= 14 \newline
     s_1 + s_2 &= 57
 \end{align}
-We do have more variables than before, but each equation is more maneagble, since it is of the form $\text{var}_1 \text{ op } \text{var}_2 = \text{var}_3$, where for our purposes, $\text{ op }$ is either multiplication ($\cdot$) or addition ($+$). Why is this convenient? Suppose we are trying to verify if the solution vector $s = (s_1, s_2, s_3, x, y, 1)$ satisfies the system of equations. Then, we can transform each equation into one of the form $(s \cdot a) \times (s \cdot b) = c$ for some vectors $a, b, c$, where $\times$ denotes scalar multiplication and $\cdot$ denotes the dot product. Let's see how this works.
+We do have more variables than before, but each equation is more maneagble, since it is of the form $\text{var}_1 \text{ op } \text{var}_2 = \text{var}_3$, where for our purposes, $\text{ op }$ is either multiplication ($\cdot$) or addition ($+$). Why is this convenient? Suppose we are trying to verify if the solution vector $s = (s_1, s_2, s_3, x, y, 1)$ satisfies the system of equations. But now, we can transform each equation into one of the form $(s \cdot a) \times (s \cdot b) = c$ for some vectors $a, b, c$, where $\times$ denotes scalar multiplication and $\cdot$ denotes the dot product. Let's see how this works.
 
 The first equation $x \times x = s_1$ can be rewritten as 
 \begin{align}
@@ -70,8 +70,51 @@ The third equation can be rewritten as
 \begin{align}
 (s \cdot (1, 0, 0, 0, 0, 0)^T) \times (s \cdot  (0, 0, 0, 1, 0, 0)^T) = s \cdot (0, 0, 1, 0, 0, 0)^T.
 \end{align}
+The fourth equation can be rewritten as 
+\begin{align}
+(s \cdot (0, 0, 0, 1, 0, 0)^T) \times (s \cdot  (0, 0, 0, 0, 1, 0)^T) = s \cdot (0, 0, 0, 0, 0, 14)^T.
+\end{align}
 The fourth equation is straight forward; the last equation, the only one with the addition operaiton, can be expressed as
 \begin{align}
 (s \cdot (0, 0, 0, 0, 0, 1)^T) \times (s \cdot  (1, 1, 0, 0, 0, 0)^T) = s \cdot (0, 0, 0, 0, 0, 57)^T.
 \end{align}
-So we have reduces the system of arithmetic equations to a list of expressions of the form $(s \cdot a) \times (s \cdot b) = s \cdot c$. But how does this help?
+So we have reduces the system of arithmetic equations to a list of expressions of the form $(s \cdot a) \times (s \cdot b) = s \cdot c$. But how does this help with our ultimate goal of generating ZK proofs for arithmetic circuits? It's not immediately clear yet, we still have some more steps.
+## R1CS $\to$ QAP
+We need another intermediate step before we apply ZK. We will turn our R1CS into a quadratic arithmetic program (QAP); very crudely speaking, a QAP polynomializes the R1CS. How does this work? 
+
+Before discussing this, it may be helpful to to consider the list of $a$ values as a matrix:
+\begin{align}
+\begin{bmatrix}
+    0 & 0 & 0 & 1 & 0 & 0 \newline
+    0 & 0 & 0 & 0 & 1 & 0 \newline
+    1 & 0 & 0 & 0 & 0 & 0 \newline
+    0 & 0 & 0 & 1 & 0 & 0 \newline
+    0 & 0 & 0 & 0 & 0 & 1
+\end{bmatrix}
+\end{align}
+. Now, we can look at each column vector and imagine it as a set of points. For instance, we imagine the first column vector as a set of points $(0, 0), (1, 0), (2, 1), (3, 0), (4, 0)$, which we can in turn interpolate ino a polynomial, in this case $\frac{x^4}{4} - 2 x^3 + \frac{19 x^2}{4} - 3 x$. Then, each column vector represents a polynomial, so we can think of $A$ as 
+\begin{align}
+a'(x) = 
+\begin{bmatrix}
+A_1(x) & A_2(x) & A_3(x) & A_4(x) & A_5(x) & A_6(x)
+\end{bmatrix},
+\end{align}
+where as in our example, $A_1(x) = \frac{x^4}{4} - 2 x^3 + \frac{19 x^2}{4} - 3 x$. We do the same thing for $b$s and $c$s.
+\begin{align}
+b'(x) = 
+\begin{bmatrix}
+B_1(x) & B_2(x) & B_3(x) & B_4(x) & B_5(x) & B_6(x)
+\end{bmatrix} \newline
+c'(x) = \begin{bmatrix}
+C_1(x) & C_2(x) & C_3(x) & C_4(x) & C_5(x) & C_6(x)
+\end{bmatrix}
+\end{align}
+Now, to verify if $s$ is a solution to our arithmetic circuit, we just have to verify that the function $f(x)$
+\begin{align}
+f(x) = (a'(x) \cdot s) \times (b'(x) \cdot s) - c'(x) \cdot s
+\end{align}
+has roots at $0, 1, 2, 3, 4$, or that $f(x)$ can be rewritten as
+\begin{align}
+f(x) = t(x) \cdot h(x)
+\end{align}
+for some polynomial $h(x)$, where $t(x) = x \cdot (x - 1) \cdot (x - 2) \cdot (x -3 ) \cdot (x - 4)$.
