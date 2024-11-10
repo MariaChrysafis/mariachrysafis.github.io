@@ -283,6 +283,107 @@ footer {
   text-align: center;
 }
 
+.claim {
+    display: block;
+    padding: 10px;
+    //background-color: rgb(217, 242, 255);
+    border-radius: 10px;
+    border:2px solid;
+    //box-shadow: 10px 10px black
+}
+.claim:before {
+    content: "Claim. ";
+    font-weight: bold;
+    font-style: normal;
+}
+
+.example {
+  display: block;
+  padding: 10px;
+  //background-color: rgb(217, 242, 255);
+  border-radius: 10px;
+  border:2px solid;
+  //box-shadow: 10px 10px black
+}
+.example:before {
+  content: "Example. ";
+  font-weight: bold;
+  font-style: normal;
+}
+
+.note:before {
+  content: "Note. ";
+  font-weight: bold;
+}
+
+.definition:before {
+  content: "Definition. ";
+  font-weight: bold;
+}
+
+.proof:before {
+  content: "Proof. ";
+  font-weight: bold;
+  font-style: normal;
+}
+.proof:after {
+  content: "❑";
+  font-weight: bold;
+  font-style: normal;
+}
+.link {
+  font-style: italic;
+  color: red;
+}
+
+pre.highlight {
+  padding: 8px 12px;
+  position: relative;
+  // override skeleton styles
+  > code {
+    border: 0;
+    overflow-x: auto;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  &.highlight {
+    color: #c1c2c3;
+    overflow: auto;
+    white-space: pre;
+    word-wrap: normal;
+  }
+
+  // copy code to clipboard
+  .copy {
+    font-weight: 200;
+    border-radius: 3px;
+    padding: 6px 12px;
+    border: 0;
+    color: #3a4149;
+    background: #e7ebee;
+    line-height: 1.15;
+    position: absolute;
+    right: 1.2rem;
+    top: 1.2rem;
+
+    opacity: 0;
+
+    &:active,
+    &:focus,
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &:active .copy,
+  &:focus .copy,
+  &:hover .copy {
+    opacity: 1;
+  }
+}
+
+
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
